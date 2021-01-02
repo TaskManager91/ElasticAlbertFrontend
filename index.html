@@ -1,0 +1,187 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ElasticAlbert UI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      body {
+          font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; 
+          padding-top: 70px
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="elasticsearch.js"></script>
+    <script>
+      var client = elasticsearch.Client({
+        host: 'http://mc.ocbe.de:9200'
+      });
+
+
+      function doSearch() {
+        var question = document.getElementById("Search").value;
+        console.log()
+        // callback API
+        client.search({
+        index: 'triviaqa_wiki',
+        body: {
+            query: {
+                match: { 'text: ': question}
+            }
+        }
+        }, (err, result) => {
+            console.log(result)
+
+            for(i = 0; i <= result.hits.hits.length; i++){
+                var htmlFileName = "file" + i.toString();
+                var htmlResName = "res" + i.toString();
+                var htmlScoreName = "score" + i.toString();
+
+                resbuffer = result.hits.hits[i]._source;
+
+                console.log(resbuffer)
+                var scoreBuffer = result.hits.hits[i]._score;
+                document.getElementById(htmlFileName).innerHTML = resbuffer["title: "];
+                document.getElementById(htmlScoreName).innerHTML = "Score: " + scoreBuffer.toString();
+                document.getElementById(htmlResName).classList.remove('d-none');
+                document.getElementById(htmlResName).innerHTML = resbuffer["text: "];
+            }
+
+            document.getElementById("res1").innerHTML = result;
+        if (err) console.log(err)
+        })
+      }
+      
+    </script>
+  </head>
+  
+  <body style="background-color: gray">
+      <div class="container">
+          <h1 class="text-center">Elastic Albert</h1>
+          <br>
+          <!-- LICHT -->
+          <div class="">
+              <div class="row">
+                    <div class="col-md-11">
+                        <input class="form-control mr-sm-2" type="text" value="Who was the first american president?" placeholder="Who was the first american president?" id="Search" aria-label="Search">
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-rounded" onclick="doSearch()">Search</button>
+                    </div>
+                    
+              </div> 
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-md-8"><h1>Elastic</h1></div>
+                <div class="col-md-4"><h1>Albert</h1></div>
+              </div>
+
+              <br>
+
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 id="file0"></h3>
+                    <p id="score0"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res0"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 id="file1"></h3>
+                    <p id="score1"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res1"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 id="file2"></h3>
+                    <p id="score2"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res2"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file3"></h3>
+                    <p id="score3"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res3"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file4"></h3>
+                    <p id="score4"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res4"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file5"></h3>
+                    <p id="score5"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res5"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file6"></h3>
+                    <p id="score6"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res6"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file7"></h3>
+                    <p id="score7"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res7"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file8"></h3>
+                    <p id="score8"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res8"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <br>
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="float-left" id="file9"></h3>
+                    <p id="score9"></p>
+                    <textarea class="d-none" rows="4" style="width:100%" id="res9"></textarea>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+              
+          </div>  
+    </div>
+  
+  </body></html>
