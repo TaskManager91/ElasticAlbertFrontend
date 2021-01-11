@@ -14,13 +14,33 @@
     </style>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="elasticsearch.js"></script>
+    <script src="http://mc.ocbe.de/elasticsearch.js"></script>
     <script>
       var client = elasticsearch.Client({
         host: 'http://mc.ocbe.de:9200'
       });
 
+      function elasticAlbert(i){
+        var question = document.getElementById("Search").value;
+        var indexS = i.toString();
+        var htmlAlbertScoreName = "ElasticAlbertScore" + i.toString();
+        var htmlElasticAlbertAnswer = "ElasticAlbertAnswer" + i.toString();
 
+        $.getJSON(`/answer`,
+        { 
+          context: indexS,
+          question: question
+        },
+            function(data) {
+              console.log(data);
+              document.getElementById(htmlAlbertScoreName).innerHTML = data.answer ;
+              document.getElementById(htmlElasticAlbertAnswer).innerHTML = "Score: " + data.prob;
+              if(i<9){
+                elasticAlbert(i+1);
+              }
+        });
+
+      }
       function doSearch() {
         var question = document.getElementById("Search").value;
         console.log()
@@ -34,25 +54,29 @@
         }
         }, (err, result) => {
             console.log(result)
-
             for(i = 0; i <= result.hits.hits.length; i++){
+                var indexS = i.toString();
                 var htmlFileName = "file" + i.toString();
                 var htmlResName = "res" + i.toString();
                 var htmlScoreName = "score" + i.toString();
+                
 
                 resbuffer = result.hits.hits[i]._source;
 
-                console.log(resbuffer)
                 var scoreBuffer = result.hits.hits[i]._score;
                 document.getElementById(htmlFileName).innerHTML = resbuffer["title: "];
                 document.getElementById(htmlScoreName).innerHTML = "Score: " + scoreBuffer.toString();
                 document.getElementById(htmlResName).classList.remove('d-none');
                 document.getElementById(htmlResName).innerHTML = resbuffer["text: "];
+                
             }
 
             document.getElementById("res1").innerHTML = result;
         if (err) console.log(err)
         })
+
+        elasticAlbert(0);
+     
       }
       
     </script>
@@ -88,7 +112,10 @@
                     <p id="score0"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res0"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore0"></h3>
+                  <p id="ElasticAlbertAnswer0"></p>
+                </div>
               </div>
 
               <br>
@@ -98,7 +125,10 @@
                     <p id="score1"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res1"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore1"></h3>
+                  <p id="ElasticAlbertAnswer1"></p>
+                </div>
               </div>
 
               <br>
@@ -108,7 +138,10 @@
                     <p id="score2"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res2"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore2"></h3>
+                  <p id="ElasticAlbertAnswer2"></p>
+                </div>
               </div>
 
               <br>
@@ -118,7 +151,10 @@
                     <p id="score3"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res3"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore3"></h3>
+                  <p id="ElasticAlbertAnswer3"></p>
+                </div>
               </div>
 
               <br>
@@ -128,7 +164,10 @@
                     <p id="score4"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res4"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore4"></h3>
+                  <p id="ElasticAlbertAnswer4"></p>
+                </div>
               </div>
 
               <br>
@@ -138,7 +177,10 @@
                     <p id="score5"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res5"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore5"></h3>
+                  <p id="ElasticAlbertAnswer5"></p>
+                </div>
               </div>
 
               <br>
@@ -148,7 +190,10 @@
                     <p id="score6"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res6"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore6"></h3>
+                  <p id="ElasticAlbertAnswer6"></p>
+                </div>
               </div>
 
               <br>
@@ -158,7 +203,10 @@
                     <p id="score7"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res7"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore7"></h3>
+                  <p id="ElasticAlbertAnswer7"></p>
+                </div>
               </div>
 
               <br>
@@ -168,7 +216,10 @@
                     <p id="score8"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res8"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore8"></h3>
+                  <p id="ElasticAlbertAnswer8"></p>
+                </div>
               </div>
 
               <br>
@@ -178,7 +229,10 @@
                     <p id="score9"></p>
                     <textarea class="d-none" rows="4" style="width:100%" id="res9"></textarea>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <h3 id="ElasticAlbertScore9"></h3>
+                  <p id="ElasticAlbertAnswer9"></p>
+                </div>
               </div>
               
           </div>  
