@@ -59,10 +59,30 @@
   
   <body style="background-color: gray">
       <div class="container">
-          <h1 class="text-center">ElasticAlbert Upload</h1>
+          <h1 class="text-center">ElasticAlbert Upload / <a href="/">Search</a></h1>
           <br>
           <div class="text-center">
 
+            <h3 class="text-center">1.) File upload</h3>
+              {% if uploadSuccess %}
+                <p>{{ uploadSuccess }}</p>
+              {% endif %}
+
+            <form action = "/upload" method = "post" enctype="multipart/form-data">  
+              <input type="file" name="file" />  
+              <input class="btn btn-rounded" type="submit" value="upload">  
+            </form>  
+            <br>
+            <br>
+            <h3 class="text-center">2.) Update from FTP</h3>
+            {% if ftpSuccess %}
+                <p>{{ ftpSuccess }}</p>
+              {% endif %}
+            <a href="/ftp"><button class="btn btn-rounded" >update</button></a>
+            <br>
+            <br>
+            <br>
+            <h3 class="text-center">3.) Direct upload</h3>
               <div class="row">
                     <div class="col-md-12">
                         <input class="form-control mr-sm-2" type="text" value="examplefile.txt" id="filename" aria-label="filename">
@@ -75,12 +95,11 @@
                     
               </div> 
               <br>
-              <button class="btn btn-rounded" onclick="doUpload()">Upload!</button>
-
+              <button class="btn btn-rounded" onclick="doUpload()">upload</button>
+              
+              
+              
           </div>  
     </div>
-  
-  
-  
-  
+
   </body></html>
