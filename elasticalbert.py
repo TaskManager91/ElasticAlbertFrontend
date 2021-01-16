@@ -41,6 +41,7 @@ def answer():
     print(question)
     print(contextNString)
     contextN = int(contextNString) 
+    
     ## ElasticSearch part
     query = {
             'query': {
@@ -57,8 +58,14 @@ def answer():
     predData = result['hits']['hits'][contextN]['_source']['text: ']
 
     predictions = qa_pipeline(question=question, context=predData)
+    predicitonAnswer = predictions['answer']
 
-    result = {'answer': predictions['answer'], 'prob': predictions['score']}
+    lastChar = predicitonAnswer[-1]
+
+    if lastChar == '.' or lastChar == ',' or lastChar == '?' or lastChar == "'" or lastChar == ";" or lastChar == "*":
+      predicitonAnswer = predicitonAnswer[:-1]
+
+    result = {'answer': predicitonAnswer, 'prob': predictions['score']}
 
     return jsonify(result)
 
